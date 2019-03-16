@@ -1,0 +1,18 @@
+
+[ACCESS]
+ASW1 ansible_host=192.168.1.131
+ASW2 ansible_host=192.168.1.132
+
+
+[DIST]
+DSW1 ansible_host=192.168.1.129
+DSW1 ansible_host=192.168.1.130
+
+[ROUTERS]
+R1 ansible_host=192.168.1.136
+R2 ansible_host=192.168.1.135
+R3 ansible_host=192.168.1.134
+R4 ansible_host=192.168.1.133
+
+[EXTERNAL]
+INTERNET ansible_host=192.168.1.134
