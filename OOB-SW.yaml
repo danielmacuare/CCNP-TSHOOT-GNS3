@@ -1,0 +1,41 @@
+---
+id: 1
+init-con:
+  hostname: OOB-SW
+  pass_enc: true
+  en_secret: ccnplab
+  domain_lookup: true
+
+local-acc:
+  user: danielmac
+  passwd: ccnplab
+  priv_level: 15
+
+lin_con:
+  id: 0
+  passwd: ccnplab
+  logging_syn: true
+  exec_timeo: 0
+
+lin_vty:
+  lines: "0 4"
+  passwd: ccnplab
+  input_tran: telnet
+
+vlans:
+  - id: 200
+    name: MGMT
+  - id: 999
+    name: SPARE
+
+interfaces:
+  - id: Ethernet0/0
+    mode: access
+    vlan_name: MGMT
+  - id: Ethernet2/3
+    mode: access
+    vlan_name: SPARE
+  - id: Vlan200
+    mode: svi
+    ip: 192.168.1.139
+    mask: 255.255.255.0
