@@ -7,9 +7,12 @@ init-con:
   domain_lookup: true
 
 local-acc:
-  user: danielmac
-  passwd: ccnplab
-  priv_level: 15
+  - user: danielmac
+    passwd: ccnplab
+    priv_level: 15
+  - user: admin 
+    passwd: adminlab
+    priv_level: 15
 
 lin_con:
   id: 0
@@ -23,19 +26,13 @@ lin_vty:
   input_tran: telnet
 
 vlans:
-  - id: 200
-    name: MGMT
-  - id: 999
-    name: SPARE
+  MGMT-200: { id: 200, description: Management }
+  SPAR-999: { id: 999, description: Spare }
 
-interfaces:
-  - id: Ethernet0/0
-    mode: access
-    vlan_name: MGMT
-  - id: Ethernet2/3
-    mode: access
-    vlan_name: SPARE
-  - id: Vlan200
-    mode: svi
-    ip: 192.168.1.139
-    mask: 255.255.255.0
+l2-interfaces:
+  Et0/0: { mode: access, vlan: MGMT-200, description: PROVISIONER }  
+  Et2/3: { mode: access, vlan: SPAR-999 }  
+
+l3-interfaces:
+  Vlan200: { mode: svi, ip: 192.168.1.139, mask: 255.255.255.0, description: Management interface }
+
