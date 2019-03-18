@@ -30,7 +30,7 @@ def yaml_jinja_conf(yaml_file, jinja_templ, cfg_file='output.cfg'):
 
     # Reading YAML and trasnforming it into a Python object
     with open(yaml_file) as f:
-        input_values = yaml.load(f)
+        input_values = yaml.load(f, Loader=yaml.FullLoader)
 
     # Defining Jinja Env + jinja template
     ENV = Environment(loader=FileSystemLoader('.'), trim_blocks=True)
