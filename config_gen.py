@@ -1,6 +1,7 @@
 #!/usr/bin/python3.6
 from jinja2 import Environment, FileSystemLoader, Template
 from pprint import pprint
+from nornir import InitNornir
 import yaml
 
 
@@ -29,11 +30,12 @@ def yaml_jinja_conf(yaml_file, jinja_templ, cfg_file='output.cfg'):
     """
 
     # Reading YAML and trasnforming it into a Python object
-    with open(yaml_file) as f:
+    with open('input/' + yaml_file) as f:
         input_values = yaml.load(f, Loader=yaml.FullLoader)
 
     # Defining Jinja Env + jinja template
-    ENV = Environment(loader=FileSystemLoader('.'), trim_blocks=True)
+    ENV = Environment(loader=FileSystemLoader('templates'), trim_blocks=True,
+                      lstrip_blocks=True)
     template = ENV.get_template(jinja_templ)
 
     # Rendering the template
@@ -47,10 +49,13 @@ def yaml_jinja_conf(yaml_file, jinja_templ, cfg_file='output.cfg'):
 
 
 # PROGRAM
-yaml_jinja_conf('OOB-SW.yaml', 'Initial-config.j2')
+#yaml_jinja_conf('test.yaml', 'Routers.j2')
 #yaml_data, python_data = yaml_to_python("OOB-SW.yaml")
 
 
+norn = InitNornir(config_file='nornir_config.yaml')
+#print(norn.config.core.num.workers)
+print(norn.inventory.hosts)
 
 #LOGGING
 #sect_header("ORIGINAL YAML")
