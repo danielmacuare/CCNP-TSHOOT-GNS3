@@ -1,0 +1,89 @@
+Internet:
+  hostname: r2
+  port: 5012 
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - router
+
+r1:
+  hostname: r1
+  port: 5002
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - router
+
+r2:
+  hostname: r2
+  port: 5003
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - router
+
+r3:
+  hostname: r3
+  port: 5004
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - router
+
+r4:
+  hostname: r4
+  port: 5005
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - router
+
+dsw1:
+  hostname: dsw1
+  port: 5000
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - switch
+
+dsw2:
+  hostname: dsw2
+  port: 5001
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - switch
+
+asw1:
+  hostname: asw1
+  port: 5010
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - switch
+
+asw2:
+  hostname: asw2
+  port: 5011
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - switch
+
+oob_sw:
+  hostname: oob_sw
+  port: 5018
+  username: danielmac
+  password: ccnplab
+  platform: ios
+  groups:
+    - switch
