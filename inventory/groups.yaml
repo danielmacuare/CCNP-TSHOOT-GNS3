@@ -1,0 +1,16 @@
+---
+global:
+  data:
+    domain: danielmacuare.com
+
+switch:
+  data:
+    mgmt_intf: vlan200
+  groups:
+    - global
+
+router:
+  data:
+    mgmt_intf: et1/3
+  groups:
+    - global
