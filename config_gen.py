@@ -2,7 +2,9 @@
 from jinja2 import Environment, FileSystemLoader, Template
 from pprint import pprint
 from nornir import InitNornir
+import argparse
 import yaml
+import logging
 
 
 def sect_header(title):
@@ -48,6 +50,50 @@ def yaml_jinja_conf(yaml_file, jinja_templ, cfg_file='output.cfg'):
     print(config)    
 
 
+#Parsing arguments
+parser = argparse.ArgumentParser(description='''Takes a values file (.yaml) along with a Jinja template (.j2) \ 
+    and returns a config file''')
+
+parser.add_argument('--values', '-v', type=str,
+                    help='input the path to the values template i.e "values.yaml"')
+
+
+parser.add_argument('--template', '-t', type=str,
+                    help='input the path to the Jinja template i.e "template.j2"')
+
+# When the --debug option is used, args.parse will return True because of action='store_true'
+parser.add_argument('--debug', default='None', action='store_true',
+                    help='This option writes debug statements to ./config_gen.log')
+
+parser.add_argument('--version', action='version', version='%(prog)s 1.0')
+
+args = parser.parse_args()
+
+# Enabling logging
+timestamp = '%d-%m-%Y %H:%M:%S'
+
+logger = logging.getLogger(__name__) 
+logger.setLevel(logging.DEBUG if args.debug == True else logging.INFO)
+
+# Creates a file handler which logs debug events to a file
+formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s',
+                              timestamp)
+
+file_handler = logging.FileHandler('config_gen.log')
+file_handler.setFormatter(formatter)
+
+# create a console handler with a higher log level
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+
+# Adds the handlers to the logger
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
+
+
+# Returned values
+logger.debug(args)
+
 # PROGRAM
 #yaml_jinja_conf('test.yaml', 'Routers.j2')
 #yaml_data, python_data = yaml_to_python("OOB-SW.yaml")
@@ -55,7 +101,16 @@ def yaml_jinja_conf(yaml_file, jinja_templ, cfg_file='output.cfg'):
 
 norn = InitNornir(config_file='nornir_config.yaml')
 #print(norn.config.core.num.workers)
-print(norn.inventory.hosts)
+#print(norn.inventory.hosts)
+#print(norn.inventory.hosts['r2'])
+#print(norn.inventory.groups)
+#
+#r2 = norn.inventory.hosts['r2']
+#print(r2.keys())
+#print(r2['domain'])
+#
+#r3 = norn.inventory.hosts['r3']
+#print(r3['domain'])
 
 #LOGGING
 #sect_header("ORIGINAL YAML")
