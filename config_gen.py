@@ -1,10 +1,11 @@
 #!/usr/bin/python3.6
 from jinja2 import Environment, FileSystemLoader, Template
-from pprint import pprint
+from pprint import pprint, pformat
 from nornir import InitNornir
 import argparse
 import yaml
 import logging
+import sys
 
 
 def sect_header(title):
@@ -15,20 +16,26 @@ def sect_header(title):
     print(title)
     print("#" * 70)
 
-
-def yaml_to_python(yaml_file):
+def yaml_to_str(yaml_filename):
     """
-    Takes a yaml_file (str) and returns the original string + a data strucuctur
+    Takes a yaml_filename (str) from the input/ dir and a string
     """
-    with open(yaml_file, 'r') as f:
+    with open('input/' + yaml_filename, 'r') as f:
         yaml_str = f.read()
-        python_data_strc = yaml.load(yaml_str, Loader=yaml.FullLoader)
-    return (yaml_str, python_data_strc)
+    return yaml_str
 
-def yaml_jinja_conf(yaml_file, jinja_templ, cfg_file='output.cfg'):
+def yamlstr_to_python(yamlstr):
+    """
+    Takes a yaml string (yamlstr) and returns a python data structure
+    """
+    python_struc = yaml.load(yamlstr, Loader=yaml.FullLoader)
+    return python_struc
+
+def gen_config(yaml_file, jinja_templ, cfg_file='output.cfg'):
     """
     Combine a Yaml file with a Jinja template and renders a config file.
-    The template must be in the same directory than the script.
+    The Yaml must be in the inputs/ directory relative to the script
+    The Jinja template must be in the templates/ directory relative to the script.
     """
 
     # Reading YAML and trasnforming it into a Python object
@@ -49,8 +56,15 @@ def yaml_jinja_conf(yaml_file, jinja_templ, cfg_file='output.cfg'):
     
     print(config)    
 
+def log_args(args):
+    """"
+    args = parser.parse_args()
+    Takes the args object and logs the parameters passed by the user.
+    """
+    logger.debug('CLI-PASSED ARGS: ' + str(args))
 
-#Parsing arguments
+
+# Parsing arguments
 parser = argparse.ArgumentParser(description='''Takes a values file (.yaml) along with a Jinja template (.j2) \ 
     and returns a config file''')
 
@@ -91,31 +105,18 @@ logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
 
-# Returned values
-logger.debug(args)
+if __name__ == "__main__":
+    print(args)
+    gen_config(args.values, args.template)
 
-# PROGRAM
-#yaml_jinja_conf('test.yaml', 'Routers.j2')
-#yaml_data, python_data = yaml_to_python("OOB-SW.yaml")
+    if args.debug == True:
+        log_args(args)
+        if args.values:
+            yamlstr = yaml_to_str(args.values)
+            sect_header('YAML')
+            print (yamlstr)
+            sect_header('PYTHON')
+            python_yaml = yamlstr_to_python(yamlstr)
+            pprint(python_yaml)
 
-
-norn = InitNornir(config_file='nornir_config.yaml')
-#print(norn.config.core.num.workers)
-#print(norn.inventory.hosts)
-#print(norn.inventory.hosts['r2'])
-#print(norn.inventory.groups)
-#
-#r2 = norn.inventory.hosts['r2']
-#print(r2.keys())
-#print(r2['domain'])
-#
-#r3 = norn.inventory.hosts['r3']
-#print(r3['domain'])
-
-#LOGGING
-#sect_header("ORIGINAL YAML")
-#print(yaml_data)
-#sect_header("CONVERTED TO --> PYTHON DATA STRUCTURE")
-#pprint(python_data)
-
-
+    sys.exit()
