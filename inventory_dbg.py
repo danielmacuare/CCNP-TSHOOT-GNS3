@@ -7,22 +7,29 @@ import yaml
 import logging
 import sys 
 
+"""
+Usage
+python inventory_dbg.py --debug
+python inventory_dbg.py --children switch
+python inventory_dbg.py --filter device=router
+
+"""
 
 def log_args(args):
     """"
     args = parser.parse_args()
     Takes the args object and logs the parameters passed by the user.
     """
-    logger.debug('CLI-PASSED ARGS: ' + str(args))
+    logger.info('CLI-PASSED ARGS: ' + str(args))
 
 
 def log_hosts(inv_hosts):
     """"
     norn = InitNornir(config_file='nornir_config.yaml')
     inv_hosts = norn.inventory.hosts
-    Takes the dictionary-like object  of inv_hosts and logs it.
+    Takes the dictionary-like object of inv_hosts and logs it.
     """
-    logger.debug("HOSTS AVAILABLE: \n" + pformat(inv_hosts))
+    logger.info("HOSTS AVAILABLE: \n" + pformat(inv_hosts))
 
 def log_groups(inv_groups):
     """"
@@ -30,7 +37,7 @@ def log_groups(inv_groups):
     inv_groups = norn.inventory.groups
     Takes the dictionary-like object of inv_groups and logs it.
     """
-    logger.debug("GROUPS AVAILABLE: \n" + pformat(inv_groups))
+    logger.info("GROUPS AVAILABLE: \n" + pformat(inv_groups))
 
 def log_inherited_values(in_host_values):
     """
@@ -47,7 +54,7 @@ def log_inherited_values(in_host_values):
         log_line = host + '\n' + values + '\n'
         log_output.append(log_line)
     log_string = ''.join(log_output)
-    logger.debug(log_string)
+    logger.info(log_string)
 
 
 #PARSING ARGUMENTS
@@ -61,8 +68,14 @@ parser.add_argument('--hosts', '-d', type=str,
 parser.add_argument('--groups', '-g', type=str,
                     help='input the path to the groups file i.e "groups.yaml"')
 
+parser.add_argument('--filter', '-f', type=str,
+                    help='input the filter you want to apply  i.e "device=router"')
+
+parser.add_argument('--children', '-c', type=str,
+                    help='input the group and will return the children of the group.  i.e "switch"')
+
 # When the --debug option is used, args.parse will return True because of action='store_true'
-parser.add_argument('--debug', default='None', action='store_true',
+parser.add_argument('--debug', default=False, action='store_true',
                     help='This option writes debug statements to ./config_gen.log')
 
 parser.add_argument('--version', action='version', version='%(prog)s 1.0')
@@ -101,9 +114,18 @@ if __name__ == "__main__":
     inv_groups = norn.inventory.groups
     inv_groups_values = norn.inventory.groups.values()
 
+
     if args.debug:
         log_args(args)
         log_hosts(inv_hosts)
         log_groups(inv_groups)
         log_inherited_values(inv_hosts_values)
+
+    if args.filter:
+        print('The following devices match the filter: "{}"'.format(args.filter))
+        print(norn.filter(device='router').inventory.hosts.keys())
+    if args.children:
+        print('The following devices are children of the group: "{}"'.format(args.children))
+        pprint(norn.inventory.children_of_group(args.children))
+
     sys.exit()
