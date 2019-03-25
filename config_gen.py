@@ -68,13 +68,15 @@ def log_args(args):
 parser = argparse.ArgumentParser(description='''Takes a values file (.yaml) along with a Jinja template (.j2) \ 
     and returns a config file''')
 
-parser.add_argument('--values', '-v', type=str,
-                    help='input the path to the values template i.e "values.yaml"')
+# Required ARGS
+req_args = parser.add_argument_group('required named arguments')
+req_args.add_argument('--values', '-v', type=str, required=True,
+                      help='input the path to the values template i.e "values.yaml"')
 
+req_args.add_argument('--template', '-t', type=str, required=True,
+                      help='input the path to the Jinja template i.e "template.j2"')
 
-parser.add_argument('--template', '-t', type=str,
-                    help='input the path to the Jinja template i.e "template.j2"')
-
+# Optional ARGS
 # When the --debug option is used, args.parse will return True because of action='store_true'
 parser.add_argument('--debug', default='None', action='store_true',
                     help='This option writes debug statements to ./config_gen.log')
@@ -107,16 +109,17 @@ logger.addHandler(console_handler)
 
 if __name__ == "__main__":
     print(args)
+    print(type(args))
     gen_config(args.values, args.template)
 
-    if args.debug == True:
+    print(args.debug)
+    if args.debug:
         log_args(args)
-        if args.values:
-            yamlstr = yaml_to_str(args.values)
-            sect_header('YAML')
-            print (yamlstr)
-            sect_header('PYTHON')
-            python_yaml = yamlstr_to_python(yamlstr)
-            pprint(python_yaml)
+        yamlstr = yaml_to_str(args.values)
+        sect_header('YAML')
+        print (yamlstr)
+        sect_header('PYTHON')
+        python_yaml = yamlstr_to_python(yamlstr)
+        pprint(python_yaml)
 
     sys.exit()
