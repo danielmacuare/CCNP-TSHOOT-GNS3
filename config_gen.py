@@ -95,7 +95,8 @@ logger.setLevel(logging.DEBUG if args.debug == True else logging.INFO)
 formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s',
                               timestamp)
 
-file_handler = logging.FileHandler('config_gen.log')
+log_path = 'logs/' + sys.argv[0] +'.log'
+file_handler = logging.FileHandler(log_path)
 file_handler.setFormatter(formatter)
 
 # create a console handler with a higher log level
