@@ -49,12 +49,15 @@ def gen_config(yaml_file, jinja_templ, cfg_file='output.cfg'):
 
     # Rendering the template
     config = template.render(input_values)
-
-    # Writing config to a file
-    with open(cfg_file, 'w') as output:
-        output.write(config)
-    
     print(config)    
+    return config
+
+def save_config(generated_config, path):
+    config_dir = 'output/'
+    config_path = config_dir + path
+    with open(config_path, 'w') as output:
+        output.write(generated_config)
+        print("\nThe config file has been created at :{}".format(config_path))
 
 def log_args(args):
     """"
@@ -77,6 +80,9 @@ req_args.add_argument('--template', '-t', type=str, required=True,
                       help='input the path to the Jinja template i.e "template.j2"')
 
 # Optional ARGS
+parser.add_argument('--filename', '-f', type=str,
+                    help='This option saves a config file to output/<filename>.cfg')
+
 # When the --debug option is used, args.parse will return True because of action='store_true'
 parser.add_argument('--debug', default=False, action='store_true',
                     help='This option writes debug statements to ./config_gen.log')
@@ -109,7 +115,7 @@ logger.addHandler(console_handler)
 
 
 if __name__ == "__main__":
-    gen_config(args.values, args.template)
+    generated_config = gen_config(args.values, args.template)
 
     if args.debug:
         log_args(args)
@@ -119,5 +125,8 @@ if __name__ == "__main__":
         sect_header('PYTHON')
         python_yaml = yamlstr_to_python(yamlstr)
         pprint(python_yaml)
+
+    if args.filename:
+        save_config(generated_config, args.filename)
 
     sys.exit()
