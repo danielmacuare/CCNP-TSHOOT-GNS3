@@ -78,7 +78,7 @@ req_args.add_argument('--template', '-t', type=str, required=True,
 
 # Optional ARGS
 # When the --debug option is used, args.parse will return True because of action='store_true'
-parser.add_argument('--debug', default='None', action='store_true',
+parser.add_argument('--debug', default=False, action='store_true',
                     help='This option writes debug statements to ./config_gen.log')
 
 parser.add_argument('--version', action='version', version='%(prog)s 1.0')
@@ -108,11 +108,8 @@ logger.addHandler(console_handler)
 
 
 if __name__ == "__main__":
-    print(args)
-    print(type(args))
     gen_config(args.values, args.template)
 
-    print(args.debug)
     if args.debug:
         log_args(args)
         yamlstr = yaml_to_str(args.values)
