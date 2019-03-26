@@ -1,0 +1,7 @@
+! ######################## Switches.j2  ################################
+{% for vlan, param in vlans|dictsort %}
+{{ vlan }}
+vlan {{ param.id }}
+  name {{ vlan }}
+
+{% endfor %}
