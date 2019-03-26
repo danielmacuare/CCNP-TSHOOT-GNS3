@@ -1,0 +1,37 @@
+---
+global:
+  data:
+    domain: danielmacuare.com
+    init_conf:
+    pass_enc: true
+    en_secret: ccnplab
+    domain_lookup: true
+   
+    local_acc:
+      - { user: danielmac, secret: ccnplab, priv_level: 15 }
+      - { user: admin, secret: adminlab, priv_level: 15 }
+      - { user: x-team, secret: xlab, priv_level: 15 }
+      - { user: test-team, secret: testlab, priv_level: 4 }
+
+    lin_con:
+      id: 0
+      passwd: ccnplab
+      logging_syn: true
+      exec_timeo: 0
+
+    lin_vty:
+      lines: "0 4"
+      passwd: ccnplab
+      conn_method: telnet
+
+switch:
+  data:
+    mgmt_intf: vlan200
+  groups:
+    - global
+
+router:
+  data:
+    mgmt_intf: et1/3
+  groups:
+    - global

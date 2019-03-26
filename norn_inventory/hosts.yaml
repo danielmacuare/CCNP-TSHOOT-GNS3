@@ -1,3 +1,4 @@
+---
 Internet:
   hostname: r2
   port: 5012 
@@ -6,6 +7,9 @@ Internet:
   platform: ios
   groups:
     - router
+  data:
+    device: router
+
 
 r1:
   hostname: r1
@@ -15,6 +19,8 @@ r1:
   platform: ios
   groups:
     - router
+  data:
+    device: router
 
 r2:
   hostname: r2
