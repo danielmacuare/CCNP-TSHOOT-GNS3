@@ -9,6 +9,9 @@ import sys
 
 '''
 Usage
+python config_gen.py -v test.yaml -t Routers.j2
+python config_gen.py -v test.yaml -t Routers.j2 -f R1.cfg
+python config_gen.py -v test.yaml -t Routers.j2 -f R1.cfg --debug
 
 '''
 
@@ -62,7 +65,7 @@ def save_config(generated_config, path):
     config_path = config_dir + path
     with open(config_path, 'w') as output:
         output.write(generated_config)
-        print("\nThe config file has been created at :{}".format(config_path))
+        print('\nThe config file has been created at: "{}"'.format(config_path))
 
 def log_args(args):
     """"
