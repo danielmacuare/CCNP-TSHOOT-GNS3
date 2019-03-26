@@ -1,10 +1,5 @@
 ---
-core:
-  num_workers: 20
- 
 inventory:
-  plugin: nornir.plugins.inventory.simple.SimpleInventory
+  plugin: nornir.plugins.inventory.ansible.AnsibleInventory
   options:
-    host_file: "inventory/hosts.yaml"
-    group_file: "inventory/groups.yaml"
-    defaults_file: "inventory/defaults.yaml"
+    hostsfile: "ansible_inv"
