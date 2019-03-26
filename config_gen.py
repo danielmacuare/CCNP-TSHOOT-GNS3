@@ -7,6 +7,11 @@ import yaml
 import logging
 import sys
 
+'''
+Usage
+
+'''
+
 
 def sect_header(title):
     """
@@ -18,9 +23,9 @@ def sect_header(title):
 
 def yaml_to_str(yaml_filename):
     """
-    Takes a yaml_filename (str) from the input/ dir and a string
+    Takes a yaml_filename (str) from the vars_dir and a string
     """
-    with open('input/' + yaml_filename, 'r') as f:
+    with open(vars_dir + yaml_filename, 'r') as f:
         yaml_str = f.read()
     return yaml_str
 
@@ -34,16 +39,16 @@ def yamlstr_to_python(yamlstr):
 def gen_config(yaml_file, jinja_templ, cfg_file='output.cfg'):
     """
     Combine a Yaml file with a Jinja template and renders a config file.
-    The Yaml must be in the inputs/ directory relative to the script
-    The Jinja template must be in the templates/ directory relative to the script.
+    The Yaml must be in the vars_dir directory relative to the script
+    The Jinja template must be in the templates_dir relative to the script.
     """
 
     # Reading YAML and trasnforming it into a Python object
-    with open('input/' + yaml_file) as f:
+    with open(vars_dir + yaml_file) as f:
         input_values = yaml.load(f, Loader=yaml.FullLoader)
 
     # Defining Jinja Env + jinja template
-    ENV = Environment(loader=FileSystemLoader('templates'), trim_blocks=True,
+    ENV = Environment(loader=FileSystemLoader(templates_dir), trim_blocks=True,
                       lstrip_blocks=True)
     template = ENV.get_template(jinja_templ)
 
@@ -115,6 +120,9 @@ logger.addHandler(console_handler)
 
 
 if __name__ == "__main__":
+    vars_dir = 'input/'
+    templates_dir = 'templates'
+
     generated_config = gen_config(args.values, args.template)
 
     if args.debug:
