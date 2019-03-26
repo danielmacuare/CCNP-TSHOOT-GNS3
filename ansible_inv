@@ -1,0 +1,22 @@
+[all:vars]
+domain=newdomain.com
+
+[Switches]
+oob-sw ansible_host=192.168.1.139 ansible_port=5018
+dsw-1
+dsw-2
+asw-1
+asw-2
+
+[Switches:vars]
+sw=sw-test-var
+
+[Routers]
+r1
+r2
+r3
+r4
+internet
+
+[Routers:vars]
+rt=rt-test
