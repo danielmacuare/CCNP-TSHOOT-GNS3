@@ -2,14 +2,16 @@
 domain=newdomain.com
 
 [Switches]
-oob-sw ansible_host=192.168.1.139 ansible_port=5018
-dsw-1
-dsw-2
-asw-1
-asw-2
+oob-sw 		mgmt_ip=192.168.1.139/24
+dsw-1 		mgmt_ip=192.168.1.129/24
+dsw-2 		mgmt_ip=192.168.1.130/24
+asw-1 		mgmt_ip=192.168.1.131/24
+asw-2 		mgmt_ip=192.168.1.132/24
+
 
 [Switches:vars]
-sw=sw-test-var
+dev_type=switch
+j2_template_file=Switches.j2
 
 [Routers]
 r1
@@ -19,4 +21,5 @@ r4
 internet
 
 [Routers:vars]
-rt=rt-test
+dev_type=switch
+j2_template_file=Routers.j2
