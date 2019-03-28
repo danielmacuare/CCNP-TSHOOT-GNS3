@@ -1,0 +1,18 @@
+{% include 'Initial-config.j2' %}
+
+! ######################## Switches.j2  ################################
+{% for vlan, param in vlans|dictsort %}
+vlan {{ param.id }}
+  name {{ vlan }}
+{% endfor %}
+
+{% for l2int in l2-interfaces %}
+interface {{ l2int }}
+  description {{ l2int.description }}
+  switchport mode {{ l2int.mode }}
+  {% if l2int.mode == 'access' %}
+    switchport access vlan {{ l2int.vlan }}
+  {% elif l2int.mode == 'trunk' %}
+    switchport trunk allowed vlan {{ l2int.valn }}
+  {% endif %}
+{% endfor %}
