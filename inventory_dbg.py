@@ -6,6 +6,7 @@ import argparse
 import yaml
 import logging
 import sys 
+import ipdb
 
 """
 Usage
@@ -25,7 +26,7 @@ def log_args(args):
 
 def log_hosts(inv_hosts):
     """"
-    norn = InitNornir(config_file='nornir_config.yaml')
+    norn = InitNornir(config_file='config.yaml')
     inv_hosts = norn.inventory.hosts
     Takes the dictionary-like object of inv_hosts and logs it.
     """
@@ -33,7 +34,7 @@ def log_hosts(inv_hosts):
 
 def log_groups(inv_groups):
     """"
-    norn = InitNornir(config_file='nornir_config.yaml')
+    norn = InitNornir(config_file='config.yaml')
     inv_groups = norn.inventory.groups
     Takes the dictionary-like object of inv_groups and logs it.
     """
@@ -41,7 +42,7 @@ def log_groups(inv_groups):
 
 def log_inherited_values(in_host_values):
     """
-    norn = InitNornir(config_file='nornir_config.yaml')
+    norn = InitNornir(config_file='config.yaml')
     host_list = norn.inventory.host.values()
     Takes a host_list and returns all the values inherited by each host.
     """
@@ -107,7 +108,7 @@ logger.addHandler(console_handler)
 
 
 if __name__ == "__main__":
-    norn = InitNornir(config_file='nornir_config.yaml')
+    norn = InitNornir(config_file='config.yaml')
 
     inv_hosts = norn.inventory.hosts
     inv_hosts_values = norn.inventory.hosts.values()
