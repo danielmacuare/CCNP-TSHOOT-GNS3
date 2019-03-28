@@ -1,5 +1,0 @@
----
-inventory:
-  plugin: nornir.plugins.inventory.ansible.AnsibleInventory
-  options:
-    hostsfile: "ansible_inv"
