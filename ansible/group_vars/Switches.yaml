@@ -3,9 +3,5 @@ vlans:
   MGMT-200: { id: 200, description: Management }
   SPAR-999: { id: 999, description: Spare }
 
-l2-interfaces:
-  Et0/0: { mode: access, vlan: MGMT-200, description: PROVISIONER }
-  Et2/3: { mode: access, vlan: SPAR-999 }
-
 mgmt_intf: "Vlan200"
 mgmt_description: "Management Interface"
