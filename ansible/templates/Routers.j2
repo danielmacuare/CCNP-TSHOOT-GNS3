@@ -1,7 +1,3 @@
 {% include 'Initial-config.j2' %}
 
 ! ######################## Routers.j2 ###################################
-interface {{ mgmt_intf }}
-  ip {{ mgmt_param.ip }} {{ mgmt_param.mask }}
-  description {{ mgmt_param.description }}
-  no shutdown
