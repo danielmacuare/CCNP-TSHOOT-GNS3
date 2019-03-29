@@ -1,15 +1,15 @@
 ---
-l2-interfaces:
-  Et0/0: { mode: access, vlan: MGMT-200, description: NET-AUTO SERVER }
-  Et0/1: { mode: access, vlan: MGMT-200, description: INTERNET  }
-  Et0/2: { mode: access, vlan: MGMT-200, description: R1 }
-  Et0/3: { mode: access, vlan: MGMT-200, description: R2 }
-  Et1/0: { mode: access, vlan: MGMT-200, description: R3 }
-  Et1/1: { mode: access, vlan: MGMT-200, description: R4 }
-  Et1/2: { mode: access, vlan: MGMT-200, description: DSW1 }
-  Et1/3: { mode: access, vlan: MGMT-200, description: DSW2 }
-  Et2/0: { mode: access, vlan: MGMT-200, description: ASW1 }
-  Et2/1: { mode: access, vlan: MGMT-200, description: ASW2 }
+l2_interfaces:
+  Et0/0: { mode: access, vlan: MGMT-200, desc: 'NET-AUTO SERVER' }
+  Et0/1: { mode: access, vlan: MGMT-200, desc: INTERNET }
+  Et0/2: { mode: access, vlan: MGMT-200, desc: R1 }
+  Et0/3: { mode: access, vlan: MGMT-200, desc: R2 }
+  Et1/0: { mode: access, vlan: MGMT-200, desc: R3 }
+  Et1/1: { mode: access, vlan: MGMT-200, desc: R4 }
+  Et1/2: { mode: access, vlan: MGMT-200, desc: DSW1 }
+  Et1/3: { mode: access, vlan: MGMT-200, desc: DSW2 }
+  Et2/0: { mode: access, vlan: MGMT-200, desc: ASW1 }
+  Et2/1: { mode: access, vlan: MGMT-200, desc: ASW2 }
   Et2/2: { mode: access, vlan: SPAR-999 }
   Et2/3: { mode: access, vlan: SPAR-999 }
   Et3/0: { mode: access, vlan: SPAR-999 }
