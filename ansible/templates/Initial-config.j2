@@ -35,5 +35,6 @@ line vty {{ lin_vty.lines }}
 interface {{ mgmt_intf }}
   ip address {{ mgmt_ip | ipaddr('address') }} {{ mgmt_ip | ipaddr('netmask') }}
   description {{ mgmt_description }}
+  no shutdown
 
 ! ######################## END OF INITIAL CONFIG ########################
