@@ -3,3 +3,4 @@ netaddr
 jinja2
 yaml
 pprint
+ansible
