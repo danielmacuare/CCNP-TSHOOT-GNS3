@@ -6,13 +6,17 @@ vlan {{ param.id }}
   name {{ vlan }}
 {% endfor %}
 
-{% for l2int in l2-interfaces %}
-interface {{ l2int }}
-  description {{ l2int.description }}
-  switchport mode {{ l2int.mode }}
-  {% if l2int.mode == 'access' %}
-    switchport access vlan {{ l2int.vlan }}
-  {% elif l2int.mode == 'trunk' %}
-    switchport trunk allowed vlan {{ l2int.valn }}
+{% for intf, prop in l2_interfaces.items() %}
+interface {{ intf }}
+  {% if prop.desc is defined %}
+  description {{ prop.desc }}
   {% endif %}
+
+  {% if prop.mode == 'access'%}
+  switchport mode access
+  switchport access vlan {{ prop.vlan }}
+  {% elif prop.mode == 'trunk' %}
+  switchport mode trunk
+  {% endif %}
+
 {% endfor %}
