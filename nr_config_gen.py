@@ -4,6 +4,7 @@ from pprint import pprint, pformat
 from nornir import InitNornir
 from nornir.plugins.tasks.text import template_file
 from nornir.plugins.functions.text import print_result
+from ansible.plugins.filter.ipaddr import ipaddr
 import argparse
 import yaml
 import logging
@@ -47,7 +48,7 @@ def render_configs(task):
         task: nornir task object
     """
     filename = task.host["j2_template_file"]
-    j2_filters = {'ipaddr': 'ipaddr'}
+    j2_filters = {'ipaddr': ipaddr}
     r = task.run(
         task=template_file,
         name='Base Template Configuration',
