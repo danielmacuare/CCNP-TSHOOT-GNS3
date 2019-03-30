@@ -1,3 +1,0 @@
----
-mgmt_intf: et1/3
-mgmt_param: { ip: 192.168.1.136, mask: 255.255.255.0, description: Management interface }
