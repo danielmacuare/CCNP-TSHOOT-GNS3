@@ -8,15 +8,19 @@ vlan {{ param.id }}
 
 {% for intf, prop in l2_interfaces.items() %}
 interface {{ intf }}
-  {% if prop.desc is defined %}
+{%     if prop.desc is defined %}
   description {{ prop.desc }}
-  {% endif %}
+{%     endif -%}
 
-  {% if prop.mode == 'access'%}
+{%     if prop.mode == 'access' %}
   switchport mode access
   switchport access vlan {{ prop.vlan }}
-  {% elif prop.mode == 'trunk' %}
+{%     elif prop.mode == 'trunk' %}
+  switchport trunk encapsulation dot1q
   switchport mode trunk
-  {% endif %}
+{%         if prop.vlan is defined %}
+  switchport trunk allowed vlan {{ prop.vlan }}
+{%         endif %}
+{%     endif %}
 
-{% endfor %}
+{%     endfor %}
