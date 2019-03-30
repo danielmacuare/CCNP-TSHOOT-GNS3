@@ -1,9 +1,11 @@
 ! ######################## Initial-config.j2 ###########################
 hostname {{ host.name }}
 enable secret {{ init_conf.en_secret }}
-{% if init_conf.domain_lookup is defined %}
+
+{%- if init_conf.domain_lookup is defined %}
 no ip domain-lookup
-{% endif %}
+{% endif -%}
+
 service password-encryption
 
 ! ######################## AAA CONF ####################################
@@ -19,12 +21,14 @@ username {{ account.user }} privilege {{ account.priv_level }} secret {{ account
 ! ######################## CONSOLE #####################################
 line console {{ lin_con.id }}
   pass {{ lin_con.passwd }}
-  {% if lin_con.logging_syn %}
+
+{%- if lin_con.logging_syn %}
   logging synchronous
-  {% endif %}
-  {% if lin_con.exec_timeo is defined %}
+{% endif -%}
+
+{%- if lin_con.exec_timeo is defined %}
   exec-timeout {{ lin_con.exec_timeo |default(30)}}
-  {% endif %}
+{% endif %}
 
 ! ######################## VTY LINES ###################################
 line vty {{ lin_vty.lines }}
