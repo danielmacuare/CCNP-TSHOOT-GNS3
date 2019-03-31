@@ -8,17 +8,9 @@ dsw-2 		mgmt_ip=192.168.1.130/27
 asw-1 		mgmt_ip=192.168.1.131/27
 asw-2 		mgmt_ip=192.168.1.132/27
 
-[Switches:vars]
-dev_type=switch
-j2_template_file=Switches.j2
-
 [Routers]
 internet mgmt_ip=192.168.1.137/27
 r1 mgmt_ip=192.168.1.136/27
 r2 mgmt_ip=192.168.1.135/27
 r3 mgmt_ip=192.168.1.134/27
 r4 mgmt_ip=192.168.1.133/27
-
-[Routers:vars]
-dev_type=router
-j2_template_file=Routers.j2
