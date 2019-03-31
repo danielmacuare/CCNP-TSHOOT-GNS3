@@ -21,7 +21,7 @@ def log_args(args):
     args = parser.parse_args()
     Takes the args object and logs the parameters passed by the user.
     """
-    logger.info('CLI-PASSED ARGS: ' + str(args))
+    logger.info('CLI-PASSED ARGS: ' + str(args) + '\n')
 
 
 def log_hosts(inv_hosts):
@@ -30,7 +30,7 @@ def log_hosts(inv_hosts):
     inv_hosts = norn.inventory.hosts
     Takes the dictionary-like object of inv_hosts and logs it.
     """
-    logger.info("HOSTS AVAILABLE: \n" + pformat(inv_hosts))
+    logger.info("HOSTS AVAILABLE: \n" + pformat(inv_hosts) + '\n')
 
 def log_groups(inv_groups):
     """"
@@ -39,6 +39,18 @@ def log_groups(inv_groups):
     Takes the dictionary-like object of inv_groups and logs it.
     """
     logger.info("GROUPS AVAILABLE: \n" + pformat(inv_groups))
+
+def log_hosts_per_group(inv_groups_keys):
+    """"
+    norn = InitNornir(config_file='config.yaml')
+    inv_groups_keys = norn.inventory.groups.keys()
+    Takes the groups from inv_groups_keys and logs the children of the groups (set).
+    """
+    logger.info('HOSTS PER GROUPS:')
+    for group in inv_groups_keys:
+        logger.info('Children of the "' + group + '":')
+        hosts_in_group = norn.inventory.children_of_group(group)
+        logger.info(pformat(hosts_in_group))
 
 def log_inherited_values(in_host_values):
     """
@@ -114,12 +126,13 @@ if __name__ == "__main__":
     inv_hosts_values = norn.inventory.hosts.values()
     inv_groups = norn.inventory.groups
     inv_groups_values = norn.inventory.groups.values()
-
+    inv_groups_keys= norn.inventory.groups.keys()
 
     if args.debug:
         log_args(args)
         log_hosts(inv_hosts)
         log_groups(inv_groups)
+        log_hosts_per_group(inv_groups_keys)
         log_inherited_values(inv_hosts_values)
 
     if args.filter:
