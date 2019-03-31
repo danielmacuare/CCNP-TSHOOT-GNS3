@@ -1,7 +1,10 @@
 ---
-vlans:
-  MGMT-200: { id: 200, description: Management }
-  SPAR-999: { id: 999, description: Spare }
+dev_type: 'Switch'
+j2_template_file: 'Switches.j2'
 
-mgmt_intf: "Vlan200"
-mgmt_description: "Management Interface"
+mgmt_intf: 'Vlan200'
+mgmt_description: 'Management Interface'
+
+vlans:
+  MGMT-200: {id: 200, description: Management}
+  SPAR-999: {id: 999, description: Spare}
