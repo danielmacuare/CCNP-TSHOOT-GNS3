@@ -117,10 +117,16 @@ if __name__ == "__main__":
     inv_hosts_values = norn.inventory.hosts.values()
     inv_groups = norn.inventory.groups
     inv_groups_values = norn.inventory.groups.values()
-
-    #nr.run(task=hi, num_workers=1) 
+    pprint(inv_groups)
+    pprint(inv_groups.keys())
+    pprint(inv_groups.values())
+    print(type(inv_groups)) 
     
     render_task = norn.run(task=render_configs)
     print_result(render_task)
+
+# Inventory filters
+    routers = norn.filter(dev_type='Router').inventory.hosts.keys()
+    switches = norn.filter(dev_type='Switch').inventory.hosts.keys()
 
     sys.exit()
