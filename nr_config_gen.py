@@ -3,7 +3,8 @@ from jinja2 import Environment, FileSystemLoader, Template
 from pprint import pprint, pformat
 from nornir import InitNornir
 from nornir.plugins.tasks.text import template_file
-from nornir.plugins.functions.text import print_result
+from nornir.plugins.tasks.networking import napalm_configure
+from nornir.plugins.functions.text import print_title, print_result
 from ansible.plugins.filter.ipaddr import ipaddr
 import argparse
 import yaml
@@ -58,10 +59,19 @@ def render_configs(task):
         **task.host,
     )
     task.host['config'] = r.result
-       
-def hi(task):
-    print(f"hi! My name is {task.host.name} and I live.")
 
+# PUSHIN CONF
+    opt_arg = {'port': 5003}
+    task.run(task=napalm_configure,
+             name='Loading configuration on the device',
+             replace=False,
+             configuration=task.host['config'])
+
+#    output = task.host['config']       
+#    print(output)
+#    print(type(output))
+#    print(dir(output))
+    
 
 # Parsing arguments
 parser = argparse.ArgumentParser(description='''Takes a values file (.yaml) along with a Jinja template (.j2) \ 
@@ -117,13 +127,24 @@ if __name__ == "__main__":
     inv_hosts_values = norn.inventory.hosts.values()
     inv_groups = norn.inventory.groups
     inv_groups_values = norn.inventory.groups.values()
-    pprint(inv_groups)
-    pprint(inv_groups.keys())
-    pprint(inv_groups.values())
-    print(type(inv_groups)) 
-    
-    render_task = norn.run(task=render_configs)
-    print_result(render_task)
+#    pprint(inv_groups)
+#    pprint(inv_groups.keys())
+#    pprint(inv_groups.values())
+#    print(type(inv_groups)) 
+
+# Working with R2 only.    
+#    r2 = norn.filter(mgmt_ip='192.168.1.135/27')
+#    render_task = routers.run(task=render_configs)
+
+# Working with all devices
+#    render_task = norn.run(task=render_configs)
+#    print_result(render_task)
+
+# Working with Routers only.    
+    routers = norn.filter(dev_type='Router')
+    render_task = routers.run(task=render_configs)
+#    print_result(render_task)
+
 
 # Inventory filters
     routers = norn.filter(dev_type='Router').inventory.hosts.keys()
