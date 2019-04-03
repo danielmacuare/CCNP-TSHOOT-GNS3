@@ -1,11 +1,9 @@
 ! ######################## Initial-config.j2 ###########################
 hostname {{ host.name }}
 enable secret {{ init_conf.en_secret }}
-
-{%- if init_conf.domain_lookup is defined %}
-no ip domain-lookup
-{% endif -%}
-
+{% if init_conf.domain_lookup is defined -%}
+    no ip domain-lookup
+{% endif %}
 service password-encryption
 
 ! ######################## AAA CONF ####################################
@@ -14,31 +12,29 @@ aaa authentication login default local
 aaa authorization exec default local
 
 ! ######################## LOCAL ACCOUNTS ##############################
-{% for account in local_acc|sort(attribute='user') %}
-username {{ account.user }} privilege {{ account.priv_level }} secret {{ account.secret }}
+{% for account in local_acc|sort(attribute='user') -%}
+    username {{ account.user }} privilege {{ account.priv_level }} secret {{ account.secret }}
 {% endfor %}
 
 ! ######################## CONSOLE #####################################
 line console {{ lin_con.id }}
-  pass {{ lin_con.passwd }}
-
-{%- if lin_con.logging_syn %}
-  logging synchronous
-{% endif -%}
-
-{%- if lin_con.exec_timeo is defined %}
-  exec-timeout {{ lin_con.exec_timeo |default(30)}}
-{% endif %}
+ pass {{ lin_con.passwd }}
+{%     if lin_con.logging_syn %}
+ logging synchronous
+{%     endif %} 
+{%-    if lin_con.exec_timeo is defined %}
+ exec-timeout {{ lin_con.exec_timeo |default(30)}}
+{%     endif %}
 
 ! ######################## VTY LINES ###################################
 line vty {{ lin_vty.lines }}
-  password {{ lin_vty.passwd }}
-  transport input {{ lin_vty.conn_method }}
+ password {{ lin_vty.passwd }}
+ transport input {{ lin_vty.conn_method }}
 
 ! ######################## MGMT INT #####################################
 interface {{ mgmt_intf }}
-  ip address {{ mgmt_ip | ipaddr('address') }} {{ mgmt_ip | ipaddr('netmask') }}
-  description {{ mgmt_description }}
-  no shutdown
+ ip address {{ mgmt_ip | ipaddr('address') }} {{ mgmt_ip | ipaddr('netmask') }}
+ description {{ mgmt_description }}
+ no shutdown
 
 ! ######################## END OF INITIAL CONFIG ########################
