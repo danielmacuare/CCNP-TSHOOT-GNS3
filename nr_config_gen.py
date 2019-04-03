@@ -123,10 +123,22 @@ logger.addHandler(console_handler)
 if __name__ == "__main__":
     norn = InitNornir(config_file='config.yaml')
 
-    inv_hosts = norn.inventory.hosts
-    inv_hosts_values = norn.inventory.hosts.values()
-    inv_groups = norn.inventory.groups
-    inv_groups_values = norn.inventory.groups.values()
+# Working with Routers only.    
+    routers = norn.filter(dev_type='Router')
+    render_task = routers.run(task=render_configs)
+
+
+#    print_result(render_task)
+
+# Inventory filters
+#    routers = norn.filter(dev_type='Router').inventory.hosts.keys()
+#    switches = norn.filter(dev_type='Switch').inventory.hosts.keys()
+
+# Others
+#    inv_hosts = norn.inventory.hosts
+#    inv_hosts_values = norn.inventory.hosts.values()
+#    inv_groups = norn.inventory.groups
+#    inv_groups_values = norn.inventory.groups.values()
 #    pprint(inv_groups)
 #    pprint(inv_groups.keys())
 #    pprint(inv_groups.values())
@@ -139,15 +151,4 @@ if __name__ == "__main__":
 # Working with all devices
 #    render_task = norn.run(task=render_configs)
 #    print_result(render_task)
-
-# Working with Routers only.    
-    routers = norn.filter(dev_type='Router')
-    render_task = routers.run(task=render_configs)
-#    print_result(render_task)
-
-
-# Inventory filters
-    routers = norn.filter(dev_type='Router').inventory.hosts.keys()
-    switches = norn.filter(dev_type='Switch').inventory.hosts.keys()
-
     sys.exit()
