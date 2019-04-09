@@ -1,16 +1,21 @@
 [all:vars]
-domain=newdomain.com
+domain: newdomain.com
+username: danielmac
+password: ccnplab
+port: 23
+platform: 'ios'
+extras: {'transport': 'telnet', 'secret': 'ccnplab'}
 
 [Switches]
-oob-sw 		mgmt_ip=192.168.1.139/27
-dsw-1 		mgmt_ip=192.168.1.129/27
-dsw-2 		mgmt_ip=192.168.1.130/27
-asw-1 		mgmt_ip=192.168.1.131/27
-asw-2 		mgmt_ip=192.168.1.132/27
+oob-sw 		mgmt_ip=192.168.1.139/24
+dsw-1 		mgmt_ip=192.168.1.129/24
+dsw-2 		mgmt_ip=192.168.1.130/24
+asw-1 		mgmt_ip=192.168.1.131/24
+asw-2 		mgmt_ip=192.168.1.132/24
 
 [Routers]
-internet    mgmt_ip=192.168.1.137/27
-r1          mgmt_ip=192.168.1.136/27
-r2          mgmt_ip=192.168.1.135/27
-r3          mgmt_ip=192.168.1.134/27
-r4          mgmt_ip=192.168.1.133/27
+internet    mgmt_ip=192.168.1.137/24
+r1          mgmt_ip=192.168.1.136/24
+r2          mgmt_ip=192.168.1.135/24
+r3          mgmt_ip=192.168.1.134/24
+r4          mgmt_ip=192.168.1.133/24
