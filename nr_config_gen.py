@@ -60,18 +60,16 @@ def render_configs(task):
     )
     task.host['config'] = r.result
 
-# PUSHIN CONF
-    opt_arg = {'port': 5003}
-    task.run(task=napalm_configure,
-             name='Loading configuration on the device',
-             replace=False,
-             configuration=task.host['config'])
-
-#    output = task.host['config']       
-#    print(output)
-#    print(type(output))
-#    print(dir(output))
-    
+def get_facts_manually(task):
+    optional_args = { 'transport': 'telnet', 'port': 23 }
+    task.host.open_connection("napalm",
+                              configuration=task.nornir.config,
+                              platform='ios',
+                              extras=optional_args
+                              )
+    r = task.run(napalm_get, getters=['facts'])
+    task.host.close_connection("napalm")
+    print_result(r)
 
 # Parsing arguments
 parser = argparse.ArgumentParser(description='''Takes a values file (.yaml) along with a Jinja template (.j2) \ 
@@ -123,10 +121,14 @@ logger.addHandler(console_handler)
 if __name__ == "__main__":
     norn = InitNornir(config_file='config.yaml')
 
-# Working with Routers only.    
-    routers = norn.filter(dev_type='Router')
-    render_task = routers.run(task=render_configs)
+# Working with R2 only.    
+    r2 = norn.filter(mgmt_ip='192.168.1.135/24')
+    render_task = r2.run(task=get_facts_manually)
+    print_result(render_task)
 
+# Working with Routers only.    
+#    routers = norn.filter(dev_type='Router')
+#    render_task = routers.run(task=render_configs)
 
 #    print_result(render_task)
 
@@ -144,9 +146,6 @@ if __name__ == "__main__":
 #    pprint(inv_groups.values())
 #    print(type(inv_groups)) 
 
-# Working with R2 only.    
-#    r2 = norn.filter(mgmt_ip='192.168.1.135/27')
-#    render_task = routers.run(task=render_configs)
 
 # Working with all devices
 #    render_task = norn.run(task=render_configs)
