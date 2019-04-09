@@ -1,14 +1,14 @@
-id: 1
+---
 init_conf:
   pass_enc: true
   en_secret: ccnplab
   domain_lookup: true
 
 local_acc:
-  - { user: danielmac, secret: ccnplab, priv_level: 15 }
-  - { user: admin, secret: adminlab, priv_level: 15 }
-  - { user: x-team, secret: xlab, priv_level: 15 }
-  - { user: test-team, secret: testlab, priv_level: 4 }
+  - {user: danielmac, secret: ccnplab, priv_level: 15}
+  - {user: admin, secret: adminlab, priv_level: 15}
+  - {user: x-team, secret: xlab, priv_level: 15}
+  - {user: test-team, secret: testlab, priv_level: 4}
 
 lin_con:
   id: 0
@@ -20,4 +20,3 @@ lin_vty:
   lines: "0 4"
   passwd: ccnplab
   conn_method: telnet
-
