@@ -48,7 +48,7 @@ def log_hosts_per_group(inv_groups_keys):
     """
     logger.info('HOSTS PER GROUPS:')
     for group in inv_groups_keys:
-        logger.info('Children of the "' + group + '":')
+        logger.info('Children of the "' + group + '" group:')
         hosts_in_group = norn.inventory.children_of_group(group)
         logger.info(pformat(hosts_in_group))
 
