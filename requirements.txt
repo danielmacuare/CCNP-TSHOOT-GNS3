@@ -1,6 +1,6 @@
 nornir
 netaddr
 jinja2
-yaml
+pyyaml
 pprint
 ansible
