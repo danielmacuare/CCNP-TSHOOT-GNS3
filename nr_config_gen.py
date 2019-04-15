@@ -10,6 +10,7 @@ import argparse
 import yaml
 import logging
 import sys
+import ipdb
 
 '''
 Usage
@@ -120,11 +121,12 @@ logger.addHandler(console_handler)
 
 if __name__ == "__main__":
     norn = InitNornir(config_file='config.yaml')
+    ipdb.set_trace()
 
 # Working with R2 only.    
     r2 = norn.filter(mgmt_ip='192.168.1.135/24')
-    render_task = r2.run(task=get_facts_manually)
-    print_result(render_task)
+    facts = r2.run(task=get_facts_manually)
+    print_result(facts)
 
 # Working with Routers only.    
 #    routers = norn.filter(dev_type='Router')
