@@ -1,4 +1,7 @@
 ---
+hostname: dsw-1
+mgmt_ip: '192.168.10.129/24'
+
 l2_interfaces:
   Et0/0: { mode: trunk, vlan: '10,20', desc: 'R4 (Et0/0)' }
   Et0/1: { mode: access, vlan: 999 }

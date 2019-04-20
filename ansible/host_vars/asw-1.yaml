@@ -1,4 +1,7 @@
 ---
+hostname: asw-1
+mgmt_ip: '192.168.10.131/24'
+
 l2_interfaces:
   Et0/0: { mode: access, vlan: 10, desc: 'NET-1' }
   Et0/1: { mode: access, vlan: 10, desc: 'NET-2' }

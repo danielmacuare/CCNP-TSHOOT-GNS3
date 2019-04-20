@@ -1,4 +1,7 @@
 ---
+hostname: asw-2
+mgmt_ip: '192.168.10.132/24'
+
 l2_interfaces:
   Et0/0: { mode: access, vlan: 10, desc: 'TOOLBOX-1' }
   Et0/1: { mode: access, vlan: 999 }
