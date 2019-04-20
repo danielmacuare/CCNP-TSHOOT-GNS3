@@ -1,4 +1,14 @@
 ---
+platform: ios
+username: danielmac
+password: ccnplab
+port: 23
+
+connection_options:
+  napalm:
+    extras:
+      optional_args: {'transport': 'telnet'}
+
 init_conf:
   pass_enc: true
   en_secret: ccnplab
