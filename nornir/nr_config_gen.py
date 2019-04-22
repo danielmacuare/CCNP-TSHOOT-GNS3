@@ -2,10 +2,11 @@
 from jinja2 import Environment, FileSystemLoader, Template
 from pprint import pprint, pformat
 from nornir import InitNornir
-from nornir.plugins.tasks.text import template_file
-from nornir.plugins.tasks.networking import napalm_configure
-from nornir.plugins.functions.text import print_title, print_result
+from nornir.core.filter import F
 from ansible.plugins.filter.ipaddr import ipaddr
+from nornir.plugins.functions.text import print_title, print_result
+from nornir.plugins.tasks.text import template_file
+from nornir.plugins.tasks.networking import napalm_configure, napalm_get
 import argparse
 import yaml
 import logging
@@ -19,7 +20,6 @@ python config_gen.py -v test.yaml -t Routers.j2 -f R1.cfg
 python config_gen.py -v test.yaml -t Routers.j2 -f R1.cfg --debug
 
 '''
-
 
 def sect_header(title):
     """
@@ -55,22 +55,12 @@ def render_configs(task):
         task=template_file,
         name='Base Template Configuration',
         template=filename,
-        path='ansible/templates',
+        path='../ansible/templates',
         jinja_filters=j2_filters,
         **task.host,
     )
     task.host['config'] = r.result
 
-def get_facts_manually(task):
-    optional_args = { 'transport': 'telnet', 'port': 23 }
-    task.host.open_connection("napalm",
-                              configuration=task.nornir.config,
-                              platform='ios',
-                              extras=optional_args
-                              )
-    r = task.run(napalm_get, getters=['facts'])
-    task.host.close_connection("napalm")
-    print_result(r)
 
 # Parsing arguments
 parser = argparse.ArgumentParser(description='''Takes a values file (.yaml) along with a Jinja template (.j2) \ 
@@ -121,12 +111,14 @@ logger.addHandler(console_handler)
 
 if __name__ == "__main__":
     norn = InitNornir(config_file='config.yaml')
-    ipdb.set_trace()
 
 # Working with R2 only.    
-    r2 = norn.filter(mgmt_ip='192.168.1.135/24')
-    facts = r2.run(task=get_facts_manually)
-    print_result(facts)
+    dev = norn.filter(hostname='dsw-1')
+    #routers = norn.filter(F(groups_contains='Routers'))
+    #ipdb.set_trace(context=5)
+    #facts = r2.run(task=get_facts_napalm)
+    confs = dev.run(task=render_configs)
+    print_result(confs)
 
 # Working with Routers only.    
 #    routers = norn.filter(dev_type='Router')

@@ -1,0 +1,9 @@
+---
+core:
+  num_workers: 20
+inventory:
+  plugin: nornir.plugins.inventory.ansible.AnsibleInventory
+  options:
+    hostsfile: "../ansible/ansible_inv"
+logging:
+  file: 'logs/nornir.log'

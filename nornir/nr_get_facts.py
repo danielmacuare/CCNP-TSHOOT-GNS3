@@ -15,7 +15,7 @@ if __name__ == "__main__":
     norn = InitNornir(config_file='config.yaml')
 
     #devs = norn.filter(hostname='r1')
-    devs = norn.filter(F(groups__contains='Switches'))
-    #devs = norn.filter(F(groups__contains='Routers'))
+    #devs = norn.filter(F(groups__contains='Switches'))
+    devs = norn.filter(F(groups__contains='Routers'))
     facts = devs.run(task=get_facts_manually)
     print_result(facts)
