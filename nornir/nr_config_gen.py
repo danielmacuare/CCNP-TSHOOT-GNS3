@@ -113,11 +113,12 @@ if __name__ == "__main__":
     norn = InitNornir(config_file='config.yaml')
 
 # Working with R2 only.    
-    dev = norn.filter(hostname='dsw-1')
-    #routers = norn.filter(F(groups_contains='Routers'))
+    #dev = norn.filter(hostname='dsw-1')
+    routers = norn.filter(F(groups__contains='Routers'))
+    switches= norn.filter(F(groups__contains='Switches'))
     #ipdb.set_trace(context=5)
     #facts = r2.run(task=get_facts_napalm)
-    confs = dev.run(task=render_configs)
+    confs = switches.run(task=render_configs)
     print_result(confs)
 
 # Working with Routers only.    
