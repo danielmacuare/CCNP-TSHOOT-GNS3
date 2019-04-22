@@ -1,1 +1,0 @@
-25-03-2019 07:04:17:DEBUG:__main__:CLI-PASSED ARGS: Namespace(debug=True, template='Routers.j2', values='test.yaml')
