@@ -30,3 +30,6 @@ lin_vty:
   lines: "0 4"
   passwd: ccnplab
   conn_method: telnet
+
+mgmt_intf: 'Et1/2'
+mgmt_description: 'Management Interface'

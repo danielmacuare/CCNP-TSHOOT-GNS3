@@ -1,6 +1,3 @@
 ---
 dev_type: 'Router'
 j2_template_file: 'Routers.j2'
-
-mgmt_intf: 'Et1/3'
-mgmt_description: 'Management Interface'
