@@ -21,3 +21,11 @@ I've used my home PC (Windows 10 - 32GB RAM - AMD FX(tm)-8350 (8 Cores)), you ca
 * DHCP: In the control machine I've used isc-dhcp to provide IPs to the network devices. Those IPs have manually assigned to each network device by staticly creating a reservation based on the device's MAC address.  
 * MGMT Interfaces: All devices will be managed via the Ethernet 1/2 interface on Vlan 1.  
 
+### Lab Topology
+
+<img src='resources/GNS3-Lab.png'>
+
+[Official Cisco Tshoot Exam Topology](https://learningnetwork.cisco.com/servlet/JiveServlet/download/52366-8599/TSHOOT%20Exam%20Topology.pdf)
+
+
+
