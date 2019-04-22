@@ -8,14 +8,14 @@ user = 'danielmac'
 passwd = 'ccnplab'
 
 #device = driver(hostname=host, username=user, password=passwd, optional_args=conn_method)
-#
+
 #print('Connecting to the device')
 #device.open()
-#
+
 #print('Getting facts')
 #pprint(device.get_facts())
-##pprint(device.get_interfaces_counters())
-#
+#pprint(device.get_interfaces_counters())
+
 #print('Closing the connection')
 #device.close()
 
