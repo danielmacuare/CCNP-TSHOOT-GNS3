@@ -5,6 +5,7 @@ from nornir import InitNornir
 from nornir.core.filter import F
 from ansible.plugins.filter.ipaddr import ipaddr
 from nornir.plugins.functions.text import print_title, print_result
+from nornir.plugins.tasks.files import write_file
 from nornir.plugins.tasks.text import template_file
 from nornir.plugins.tasks.networking import napalm_configure, napalm_get
 import argparse
@@ -29,13 +30,6 @@ def sect_header(title):
     print(title)
     print("#" * 70)
 
-def save_config(generated_config, path):
-    config_dir = 'output/'
-    config_path = config_dir + path
-    with open(config_path, 'w') as output:
-        output.write(generated_config)
-        print('\nThe config file has been created at: "{}"'.format(config_path))
-
 def log_args(args):
     """"
     args = parser.parse_args()
@@ -45,21 +39,42 @@ def log_args(args):
 
 def render_configs(task):
     """
-    Nornir task to render device configurations from j2 templates.
+    Nornir task to render device configurations from j2 templates and write it
+    to the output/ folder
     Args:
         task: nornir task object
     """
     filename = task.host["j2_template_file"]
     j2_filters = {'ipaddr': ipaddr}
-    r = task.run(
+    res = task.run(
         task=template_file,
         name='Base Template Configuration',
         template=filename,
         path='../ansible/templates',
         jinja_filters=j2_filters,
-        **task.host,
-    )
-    task.host['config'] = r.result
+        **task.host)
+    config = res.result
+    hostname = task.host.name
+    write_to_file(content=config, hostname=hostname)
+    
+
+def write_to_file(content: str, hostname: str, output_dir='output/') -> None:
+    """Writes the content to a file based on the hostname & output_dir
+
+    Parameters
+    __________
+    config: str
+        The content that will be written to the file
+    hostname: str
+        The hostname that will the used to name the file.
+    output_dir: str
+        The dir where you want to output the file (default='output/')
+    """
+     
+    filename = output_dir + hostname + '.conf'
+    with open(filename, 'w' ) as wf:
+        wf.write(content)
+    print(f'Config for: {hostname} - Has been written to: {filename}')
 
 
 # Parsing arguments
@@ -110,39 +125,22 @@ logger.addHandler(console_handler)
 
 
 if __name__ == "__main__":
-    norn = InitNornir(config_file='config.yaml')
+    nr = InitNornir(config_file='config.yaml')
+    #nr = InitNornir(config_file='config.yaml', core={'num_workers': 1})
 
-# Working with R2 only.    
-    #dev = norn.filter(hostname='dsw-1')
-    routers = norn.filter(F(groups__contains='Routers'))
-    switches= norn.filter(F(groups__contains='Switches'))
-    #ipdb.set_trace(context=5)
-    #facts = r2.run(task=get_facts_napalm)
-    confs = switches.run(task=render_configs)
-    print_result(confs)
+    #common filters
+    routers = nr.filter(F(groups__contains='Routers'))
+    switches = nr.filter(F(groups__contains='Switches'))
+    r1_r2 = nr.filter(F(hostname='r1') | F(hostname='r2'))
+    r2_simple = nr.filter(hostname='r2')
 
-# Working with Routers only.    
-#    routers = norn.filter(dev_type='Router')
-#    render_task = routers.run(task=render_configs)
+    #Unfiltered task
+    rend_conf = nr.run(task=render_configs)
 
-#    print_result(render_task)
-
-# Inventory filters
-#    routers = norn.filter(dev_type='Router').inventory.hosts.keys()
-#    switches = norn.filter(dev_type='Switch').inventory.hosts.keys()
-
-# Others
-#    inv_hosts = norn.inventory.hosts
-#    inv_hosts_values = norn.inventory.hosts.values()
-#    inv_groups = norn.inventory.groups
-#    inv_groups_values = norn.inventory.groups.values()
-#    pprint(inv_groups)
-#    pprint(inv_groups.keys())
-#    pprint(inv_groups.values())
-#    print(type(inv_groups)) 
-
-
-# Working with all devices
-#    render_task = norn.run(task=render_configs)
-#    print_result(render_task)
+    #Filtered task
+    #filter_inv = routers
+    #rend_conf = filter_inv.run(task=render_configs)
+    
+    print_result(rend_conf)
+    
     sys.exit()
